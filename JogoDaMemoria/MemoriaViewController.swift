@@ -8,20 +8,13 @@
 import UIKit
 
 class MemoriaViewController: UIViewController {
-    
-    var jogoDaMemoria = JogoDaMemoria.novoJogo()
+    private var jogoDaMemoria = JogoDaMemoria.novoJogo()
     
     @IBOutlet var botoesDeCarta: [UIButton]!
     
     @IBAction func toqueBotaoCarta(_ sender: UIButton) {
-        for botao in botoesDeCarta {
-            if botao.tag == sender.tag {
-                jogoDaMemoria.escolherCarta(jogoDaMemoria.cartas[sender.tag])
-            }
-        }
-        
+        jogoDaMemoria.escolherCarta(jogoDaMemoria.cartas[sender.tag])
         atualizarTela()
-        
         if jogoDaMemoria.verificaSeGanhou() == true { notificarVitoria() }
     }
     
@@ -40,20 +33,14 @@ class MemoriaViewController: UIViewController {
         }
     }
     
-    func adicionarSombraAoBotao(_ botao: UIButton) {
-        botao.layer.shadowColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.25).cgColor
-        botao.layer.shadowOffset = CGSize(width: 4.0, height: 4.0)
-        botao.layer.shadowOpacity = 1
-        botao.layer.shadowRadius = 8
-        botao.layer.masksToBounds = false
-        botao.layer.cornerRadius = 8
-    }
-    
     func reiniciarJogo() {
         jogoDaMemoria = JogoDaMemoria.novoJogo()
         atualizarTela()
     }
-    
+}
+
+// MARK: - UI
+extension MemoriaViewController {
     func atualizarTela() {
         for botao in botoesDeCarta {
             let carta = jogoDaMemoria.cartas[botao.tag]
@@ -67,6 +54,15 @@ class MemoriaViewController: UIViewController {
                 botao.setImage(UIImage(named: "card-logo"), for: .normal)
             }
         }
+    }
+    
+    func adicionarSombraAoBotao(_ botao: UIButton) {
+        botao.layer.shadowColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.25).cgColor
+        botao.layer.shadowOffset = CGSize(width: 4.0, height: 4.0)
+        botao.layer.shadowOpacity = 1
+        botao.layer.shadowRadius = 8
+        botao.layer.masksToBounds = false
+        botao.layer.cornerRadius = 8
     }
     
     func notificarVitoria() {
@@ -85,4 +81,3 @@ class MemoriaViewController: UIViewController {
         present(alerta, animated: true)
     }
 }
-
